@@ -1,11 +1,11 @@
-import { ExistphoneService } from './exist-phone.service';
-import { PhoneService } from './phone.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Client } from './client';
-import { ClientService } from './client.service';
+import { ClientService } from './services/client.service';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Phone } from './phone';
+import { CustomvalidationService } from './services/customvalidation.service';
+import { PhoneService } from './services/phone.service';
 
 
 @Component({
@@ -30,18 +30,30 @@ export class AppComponent implements OnInit {
 
   public deletePhone!:Phone;
 
+  public clientForm!: FormGroup;
+
+
   public phoneForm!: FormGroup;
 
-  public phoneForm2!: FormGroup;
 
 
-  constructor(private clientService:ClientService, private phoneService:PhoneService, private existphoneService:ExistphoneService, private formBuilder: FormBuilder) { }
+  constructor(private clientService:ClientService, private phoneService:PhoneService, private customValidator:CustomvalidationService, private fb: FormBuilder) { }
 
   ngOnInit(){
     this.getClients();
+
     this.phoneForm = new FormGroup({
-      'phone': new FormControl(null, Validators.required, this.existphoneService.phoneAlreadyExists() )
+      'numbers': new FormControl(null, Validators.required, this.customValidator.phoneAlreadyExists() )
     });
+
+    this.clientForm = this.fb.group({
+      'firstName': new FormControl('', Validators.required),
+      'lastName': new FormControl('', Validators.required),
+      'address': new FormControl('', Validators.required),
+      'district': new FormControl('', Validators.required)
+    }, {validator: this.customValidator.MatchNames('firstName', 'lastName')}
+
+    );
   }
 
   public getClients():void{
@@ -55,7 +67,7 @@ export class AppComponent implements OnInit {
     )
   }
 
-  public onAddClient(addForm:NgForm) : void{
+  public onAddClient(addForm:FormGroup) : void{
     document.getElementById('add-client-form')?.click();
     this.clientService.addClient(addForm.value).subscribe(
       (response:Client) => {
@@ -70,7 +82,7 @@ export class AppComponent implements OnInit {
     );
   }
 
-  public onAddPhone(addPhoneForm:NgForm, clientId:number) : void{
+  public onAddPhone(addPhoneForm:FormGroup, clientId:number) : void{
     document.getElementById('add-phone-form')?.click();
     this.phoneService.addPhone(addPhoneForm.value, clientId).subscribe(
       (response:Phone) => {
@@ -171,3 +183,5 @@ export class AppComponent implements OnInit {
     button.click();
   }
 }
+
+

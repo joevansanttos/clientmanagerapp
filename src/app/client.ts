@@ -3,7 +3,8 @@ import { Phone } from "./phone";
 export interface Client {
 
   id:number;
-  name: string;
+  firstName: string;
+  lastName: string;
   address:string;
   district: string;
   phones:Phone[];
