@@ -41,17 +41,17 @@
             </div>
             <div [id]="'collapse'+client?.id" class="collapse"    [attr.aria-labelledby]="client?.id">
               <div class="card-body">
-                <ul *ngFor="let phone of client.phones" class="list-group list-group-flush">
-                  <li  class="list-group-item">
-                    <i class="fa fa-phone float-right"></i>
-                    {{phone?.numbers}}
-                    <a (click)="onOpenModalPhone(phone,  'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
-                    <a (click)="onOpenModalPhone(phone, 'delete')" class="btn btn-danger tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
-                  </li>
-                  <div class="float-right btn-group btn-group-sm">
+                <table class="table" *ngFor="let phone of client.phones">
+                  <tr>
+                    <td>
+                      {{phone?.numbers}}
+                      <a (click)="onOpenModalPhone(phone, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                      <a (click)="onOpenModalPhone(phone, 'delete')" class="btn btn-danger tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
 
-                  </div>
-                </ul>
+
+                </table>
               </div>
             </div>
           </div>
@@ -125,7 +125,7 @@
           <form [formGroup]="phoneForm">
               <div class="form-group">
                 <label for="numbers">Telefone</label>
-                <input type="text"  formControlName="numbers" class="form-control">
+                <input type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" formControlName="numbers" class="form-control">
                 <div *ngIf="phoneForm.get('numbers')?.invalid && phoneForm.get('numbers')?.touched">
                   <small class="text-danger" >Telefone Já Adicionado</small>
                 </div>
@@ -179,6 +179,35 @@
               <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
               <button (click)="onDeletePhone(deletePhone.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
            </div>
+        </div>
+     </div>
+  </div>
+</div>
+
+<!-- Edit Phone Modal -->
+<div class="modal fade" id="updatePhoneModal" tabindex="-1" role="dialog" aria-labelledby="updatePhoneModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="updatePhoneModalLabel">Atualize Telefone</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="editPhoneForm">
+            <div class="form-group">
+              <label for="numbers">Telefone</label>
+              <input type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" formControlName="numbers"  class="form-control">
+              <div *ngIf="editPhoneForm.get('numbers')?.invalid && editPhoneForm.get('numbers')?.touched">
+                <small class="text-danger" >Telefone Já Adicionado</small>
+              </div>
+            </div>
+          <div class="modal-footer">
+            <button type="button" id="add-phone-form" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button  (click)="onUpdatePhone(editPhoneForm, editPhone)" [disabled]="editPhoneForm.invalid" type="submit" class="btn btn-primary" >Atualize Telefone</button>
+          </div>
+        </form>
         </div>
      </div>
   </div>

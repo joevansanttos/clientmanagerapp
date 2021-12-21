@@ -13,7 +13,10 @@ export class PhoneService {
 
   constructor(private http:HttpClient) { }
 
-
+  public updatePhone(updatePhone:Phone, phone:Phone):Observable<Phone>{
+    updatePhone.id = phone.id;
+    return this.http.put<Phone>(`${this.apiServerUrl}/phone/update`, updatePhone);
+  }
 
   public addPhone(phone:Phone, clientId:number):Observable<Phone>{
     const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});

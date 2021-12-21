@@ -24,6 +24,8 @@ export class AppComponent implements OnInit {
 
   public addPhoneClient!:Client;
 
+  public updatePhoneClient!:Client;
+
   public phone!:Phone;
 
   public editPhone!:Phone;
@@ -32,8 +34,9 @@ export class AppComponent implements OnInit {
 
   public clientForm!: FormGroup;
 
-
   public phoneForm!: FormGroup;
+
+  public editPhoneForm!: FormGroup;
 
 
 
@@ -43,8 +46,14 @@ export class AppComponent implements OnInit {
     this.getClients();
 
     this.phoneForm = new FormGroup({
-      'numbers': new FormControl(null, Validators.required, this.customValidator.phoneAlreadyExists() )
+      'numbers': new FormControl('', Validators.required, this.customValidator.phoneAlreadyExists() )
     });
+
+    this.editPhoneForm = new FormGroup({
+      'numbers': new FormControl('', Validators.required, this.customValidator.phoneAlreadyExists() )
+    });
+
+
 
     this.clientForm = this.fb.group({
       'firstName': new FormControl('', Validators.required),
@@ -93,6 +102,21 @@ export class AppComponent implements OnInit {
       (error: HttpErrorResponse) => {
         alert(error.message);
         addPhoneForm.reset();
+      }
+    );
+  }
+
+  public onUpdatePhone(editPhoneForm:FormGroup, phone:Phone) : void{
+    this.phoneService.updatePhone(editPhoneForm.value, phone).subscribe(
+      (response:Phone) => {
+        console.log(response);
+        this.getClients();
+        editPhoneForm.reset();
+
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+        editPhoneForm.reset();
       }
     );
   }
@@ -155,7 +179,7 @@ export class AppComponent implements OnInit {
     button.click();
   }
 
-  public onOpenModalPhone(phone:Phone | null, mode:string) :void{
+  public onOpenModalPhone(phone:Phone | null,  mode:string) :void{
     const container = document.getElementById('main-container');
     const button = document.createElement('button');
     button.type = 'button';
@@ -167,11 +191,11 @@ export class AppComponent implements OnInit {
       if(phone != null){
         this.editPhone = phone;
       }
+
       button.setAttribute('data-target', '#updatePhoneModal');
     }
     if (mode === 'delete') {
       if(phone != null){
-        console.log(phone);
         this.deletePhone = phone;
       }
 
