@@ -24,4 +24,13 @@ export class ClientService {
   public deleteClient(clientId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiServerUrl}/client/delete/${clientId}`);
   }
+
+  public updateClient(client:Client):Observable<Client>{
+    console.log(client);
+    return this.http.put<Client>(`${this.apiServerUrl}/client/update`, client);
+  }
+
+  public findClientById(id:number):Observable<Client>{
+    return this.http.get<Client>(`${this.apiServerUrl}/client/find/${id}`);
+  }
 }

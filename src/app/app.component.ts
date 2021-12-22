@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 import { Phone } from './phone';
 import { CustomvalidationService } from './services/customvalidation.service';
 import { PhoneService } from './services/phone.service';
+import { first } from 'rxjs';
 
 
 @Component({
@@ -38,6 +39,8 @@ export class AppComponent implements OnInit {
 
   public editPhoneForm!: FormGroup;
 
+  public updateClientForm!: FormGroup;
+
 
 
   constructor(private clientService:ClientService, private phoneService:PhoneService, private customValidator:CustomvalidationService, private fb: FormBuilder) { }
@@ -53,15 +56,21 @@ export class AppComponent implements OnInit {
       'numbers': new FormControl('', Validators.required, this.customValidator.phoneAlreadyExists() )
     });
 
-
-
     this.clientForm = this.fb.group({
       'firstName': new FormControl('', Validators.required),
       'lastName': new FormControl('', Validators.required),
       'address': new FormControl('', Validators.required),
       'district': new FormControl('', Validators.required)
     }, {validator: this.customValidator.MatchNames('firstName', 'lastName')}
+    );
 
+    this.updateClientForm = this.fb.group({
+      'firstName': new FormControl('', Validators.required),
+      'lastName': new FormControl('', Validators.required),
+      'address': new FormControl('', Validators.required),
+      'district': new FormControl('', Validators.required),
+      'id' : new FormControl(''),
+    }, {validator: this.customValidator.MatchNames('firstName', 'lastName')}
     );
   }
 
@@ -121,6 +130,21 @@ export class AppComponent implements OnInit {
     );
   }
 
+  public onUpdateClient(updateClientForm:FormGroup) : void{
+    this.clientService.updateClient(updateClientForm.value).subscribe(
+      (response:Client) => {
+        console.log(response);
+        this.getClients();
+        updateClientForm.reset();
+
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+        updateClientForm.reset();
+      }
+    );
+  }
+
   public onDeleteClient(clientId:number) : void{
     this.clientService.deleteClient(clientId).subscribe(
       (response:void) => {
@@ -157,6 +181,17 @@ export class AppComponent implements OnInit {
       if(client != null){
         this.editClient = client;
       }
+
+      this.updateClientForm.setValue({
+        firstName: this.editClient.firstName,
+        lastName: this.editClient.lastName,
+        address: this.editClient.address,
+        district : this.editClient.district,
+        id: this.editClient.id
+     });
+
+
+
       button.setAttribute('data-target', '#updateClientModal');
     }
     if (mode === 'delete') {

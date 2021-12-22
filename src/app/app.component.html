@@ -111,6 +111,59 @@
   </div>
   </div>
 
+  <!-- Update Client Modal -->
+<div class="modal fade" id="updateClientModal" tabindex="-1" role="dialog" aria-labelledby="updateClientModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+          <h5 class="modal-title" id="updateClientModalLabel">Atualizar Cliente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+       </div>
+       <div class="modal-body">
+          <form *ngIf="updateClientForm"  [formGroup]="updateClientForm">
+            <div class="form-group">
+              <label for="firstName">Nome</label>
+          <input type="text"  formControlName="firstName" class="form-control"   placeholder="Nome" >
+              <div *ngIf="updateClientForm.get('firstName')?.invalid && updateClientForm.get('firstName')?.touched">
+                <small class="text-danger" >Nome e Sobrenome devem ser diferentes e juntos possuir 10 caracteres no minimo</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Sobrenome</label>
+              <input type="text" formControlName="lastName" class="form-control" id="lastName" placeholder="Sobrenome" >
+              <div *ngIf="updateClientForm.get('lastName')?.invalid && updateClientForm.get('lastName')?.touched">
+                <small class="text-danger" >Nome e Sobrenome devem ser diferentes e juntos possuir 10 caracteres no minimo</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address">Endereço</label>
+              <input type="text" formControlName="address" class="form-control" id="address" placeholder="Endereço">
+              <div *ngIf="updateClientForm.get('address')?.invalid && updateClientForm.get('address')?.touched">
+                <small class="text-danger" >Endereço não pode estar vazio</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="district">Bairro</label>
+              <input type="text" formControlName="district" class="form-control" id="district" placeholder="Bairro" >
+              <div *ngIf="updateClientForm.get('district')?.invalid && updateClientForm.get('district')?.touched">
+                <small class="text-danger" >Bairro não pode estar vazio</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="hidden" formControlName="id" class="form-control" id="id" >
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="add-client-form" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              <button (click)="onUpdateClient(updateClientForm)" type="submit" [disabled]="!updateClientForm.valid"  class="btn btn-primary" >Atualizar Cliente</button>
+            </div>
+          </form>
+       </div>
+    </div>
+  </div>
+  </div>
+
   <!-- Add Phone Modal -->
 <div class="modal fade" id="addPhoneModal" tabindex="-1" role="dialog" aria-labelledby="addPhoneModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

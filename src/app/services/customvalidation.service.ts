@@ -40,7 +40,13 @@ export class CustomvalidationService {
         return null;
       }
 
-      if (firstNameControl.value == lastNameControl.value) {
+      if (firstNameControl.value == lastNameControl.value || (firstNameControl.value + lastNameControl.value) < 10) {
+        lastNameControl.setErrors({ matchNames: true });
+      } else {
+        lastNameControl.setErrors(null);
+      }
+
+      if ((firstNameControl.value?.length + lastNameControl.value?.length) < 10) {
         lastNameControl.setErrors({ matchNames: true });
       } else {
         lastNameControl.setErrors(null);
