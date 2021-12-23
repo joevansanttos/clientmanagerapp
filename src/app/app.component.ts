@@ -227,6 +227,10 @@ export class AppComponent implements OnInit {
         this.editPhone = phone;
       }
 
+      this.editPhoneForm.setValue({
+        numbers: this.editPhone.numbers
+     });
+
       button.setAttribute('data-target', '#updatePhoneModal');
     }
     if (mode === 'delete') {
