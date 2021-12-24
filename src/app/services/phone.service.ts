@@ -14,22 +14,21 @@ import { Phone } from '../phone';
 export class PhoneService {
 
   /**
-   *
+   * url parametro que possui url para service
    */
   private apiServerUrl =  environment.apiBaseUrl;
 
   /**
    *
-   * @param http
+   * @param http Serviço para comunicação com o backend
    */
   constructor(private http:HttpClient) { }
 
-
   /**
-   *
-   * @param updatePhone
-   * @param phone
-   * @returns
+   * Metodo que comunica com o backend para atualizaçao de telefone
+   * @param updatePhone Parametro que contem os dados de telefone para sem atualizados
+   * @param phone Teleefone que devera ser atualizado
+   * @returns Retorna telefone atualizado
    */
   public updatePhone(updatePhone:Phone, phone:Phone):Observable<Phone>{
     updatePhone.id = phone.id;
@@ -38,9 +37,9 @@ export class PhoneService {
 
 
   /**
-   *
-   * @param phone
-   * @param clientId
+   * Metodo que comunica com o backend para adicionar um telefone
+   * @param phone Parametro que contem os dados de telefone para sem adicionados
+   * @param clientId identificador de cliente que será adicionado o telefone
    * @returns
    */
   public addPhone(phone:Phone, clientId:number):Observable<Phone>{
@@ -51,18 +50,17 @@ export class PhoneService {
 
 
   /**
-   *
-   * @param phoneId
-   * @returns
+   * Metodo que comunica com o backend para excluir um telefone
+   * @param phoneId identificador do telefone que deverá ser excluído
    */
   public deletePhone(phoneId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiServerUrl}/phone/delete/${phoneId}`);
   }
 
   /**
-   *
-   * @param phoneNumbers
-   * @returns
+   * Metodo que comunica com o backend para verificar se telefone existe
+   * @param phoneNumbers numeros do telefone que serão verificados
+   * @returns Retorna verdadeiro caso numero já exista
    */
   verifyPhoneExists(phoneNumbers:string){
     return this.http.get(`${this.apiServerUrl}/phone/exists/${phoneNumbers}`);

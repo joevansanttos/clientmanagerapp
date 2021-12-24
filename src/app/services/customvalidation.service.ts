@@ -16,8 +16,8 @@ export class CustomvalidationService {
 
 
   /**
-   *
-   * @returns
+   * Metodo que verifica se telefone já existe no backend
+   * @returns Retorna verdadeiro caso telefone ja exista
    */
   phoneAlreadyExists(){
     return (control:AbstractControl) => {
@@ -35,9 +35,9 @@ export class CustomvalidationService {
 
 
   /**
-   *
-   * @param firstName
-   * @param lastName
+   * Metodo que verifica se nome e sobrenome sao iguais
+   * @param firstName Parametro do nome
+   * @param lastName Parametro do sobrenome
    * @returns
    */
   MatchNames(firstName: string, lastName: string) {

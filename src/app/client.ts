@@ -1,5 +1,12 @@
+/**
+ * @namespace clientmanagerapp
+ */
+
 import { Phone } from "./phone";
 
+/**
+ * Classe do Cliente
+ */
 export interface Client {
 
   id:number;
@@ -12,4 +19,7 @@ export interface Client {
 
 }
 
+/**
+ * Exporta os telefones do cliente
+ */
 export type phones = Array<Phone>;

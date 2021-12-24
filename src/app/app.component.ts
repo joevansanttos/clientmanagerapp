@@ -60,6 +60,7 @@ export class AppComponent implements OnInit {
 
     /**
      * Formulario de adicionar telefone recebe validações em seus respectivos campos
+     * Verifica se o telefone foi adicionado, se tem mais de 11 de caracteres ou se o telefone ja esta adicionado
      */
     this.phoneForm = new FormGroup({
       'numbers': new FormControl('', Validators.compose([Validators.required, Validators.maxLength(11), this.customValidator.phoneAlreadyExists()]))
