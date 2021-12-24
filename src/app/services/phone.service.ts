@@ -1,3 +1,7 @@
+/**
+ * @namespace clientmanagerapp
+ */
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -9,25 +13,57 @@ import { Phone } from '../phone';
 })
 export class PhoneService {
 
+  /**
+   *
+   */
   private apiServerUrl =  environment.apiBaseUrl;
 
+  /**
+   *
+   * @param http
+   */
   constructor(private http:HttpClient) { }
 
+
+  /**
+   *
+   * @param updatePhone
+   * @param phone
+   * @returns
+   */
   public updatePhone(updatePhone:Phone, phone:Phone):Observable<Phone>{
     updatePhone.id = phone.id;
     return this.http.put<Phone>(`${this.apiServerUrl}/phone/update`, updatePhone);
   }
 
+
+  /**
+   *
+   * @param phone
+   * @param clientId
+   * @returns
+   */
   public addPhone(phone:Phone, clientId:number):Observable<Phone>{
     const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
     var json = JSON.stringify({"numbers" : phone.numbers, "clientId": clientId});
     return this.http.post<Phone>(`${this.apiServerUrl}/phone/add`, json, {headers: headers} );
   }
 
+
+  /**
+   *
+   * @param phoneId
+   * @returns
+   */
   public deletePhone(phoneId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiServerUrl}/phone/delete/${phoneId}`);
   }
 
+  /**
+   *
+   * @param phoneNumbers
+   * @returns
+   */
   verifyPhoneExists(phoneNumbers:string){
     return this.http.get(`${this.apiServerUrl}/phone/exists/${phoneNumbers}`);
   }

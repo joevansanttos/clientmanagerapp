@@ -1,3 +1,7 @@
+/**
+ * @namespace clientmanagerapp
+ */
+
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { first, map, switchMap } from 'rxjs';
@@ -10,6 +14,11 @@ export class CustomvalidationService {
 
   constructor(private phoneService:PhoneService) { }
 
+
+  /**
+   *
+   * @returns
+   */
   phoneAlreadyExists(){
     return (control:AbstractControl) => {
       return control.valueChanges.pipe(
@@ -25,7 +34,12 @@ export class CustomvalidationService {
   }
 
 
-
+  /**
+   *
+   * @param firstName
+   * @param lastName
+   * @returns
+   */
   MatchNames(firstName: string, lastName: string) {
     return (formGroup: FormGroup) => {
 
