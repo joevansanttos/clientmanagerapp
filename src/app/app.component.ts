@@ -62,15 +62,18 @@ export class AppComponent implements OnInit {
      * Formulario de adicionar telefone recebe validações em seus respectivos campos
      */
     this.phoneForm = new FormGroup({
-      'numbers': new FormControl('', Validators.required, this.customValidator.phoneAlreadyExists() )
+      'numbers': new FormControl('', Validators.compose([Validators.required, Validators.maxLength(11), this.customValidator.phoneAlreadyExists()]))
     });
+
+
 
     /**
      * Formulario para atualizar telefone recebe validações em seus respectivos campos
      */
     this.editPhoneForm = new FormGroup({
-      'numbers': new FormControl('', Validators.required, this.customValidator.phoneAlreadyExists() )
+      'numbers': new FormControl('', Validators.compose([Validators.required, Validators.maxLength(11), this.customValidator.phoneAlreadyExists()]))
     });
+
 
     /**
      * Formulario de adicionar cliente recebe validações em seus respectivos campos
@@ -82,6 +85,7 @@ export class AppComponent implements OnInit {
       'district': new FormControl('', Validators.required)
     }, {validator: this.customValidator.MatchNames('firstName', 'lastName')}
     );
+
 
     /**
      * Formulario para atualizar client recebe validações em seus respectivos campos
